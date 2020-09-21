@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: iperf
+  labels:
+    app: iperf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iperf
+  serviceName: iperf
+  template:
+    metadata:
+      labels:
+        app: iperf
+    spec:
+      containers:
+      - name: iperf
+        ports:
+        - containerPort: 5201 
+          protocol: TCP
+        image: clearlinux/iperf
+        command: ['/bin/sh', '-c', 'sleep 1d']
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: iperf
+  name: iperf
+spec:
+  ports:
+  - name: forward
+    nodePort: 31000 
+    port: 5201
+    protocol: TCP
+    targetPort: 5201
+  selector:
+    app: iperf
+  type: NodePort
