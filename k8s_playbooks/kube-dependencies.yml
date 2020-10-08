@@ -1,11 +1,14 @@
 - hosts: all
   become: yes
   tasks:
-   - name: install Docker
-     yum:
-       name: docker
-       state: present
-       update_cache: true
+   - name: install docker repo
+     command: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
+   - name: install Docker and vim
+     command: dnf install vim docker-ce --nobest -y
+
+   - name: install containerd
+     command: dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.10-3.2.el7.x86_64.rpm -y
 
    - name: start Docker
      service:

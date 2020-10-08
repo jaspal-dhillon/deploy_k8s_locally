@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-IMAGE_NAME = "centos/7"
+IMAGE_NAME = "centos/8"
 N = 2
 
 Vagrant.configure("2") do |config|
