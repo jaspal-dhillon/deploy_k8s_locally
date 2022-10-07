@@ -18,6 +18,8 @@
 
    - name: disable SELinux
      command: setenforce 0
+     register: result
+     failed_when: result.rc > 1
 
    - name: disable SELinux on reboot
      selinux:
